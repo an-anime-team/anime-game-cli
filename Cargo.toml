@@ -7,6 +7,6 @@ readme = "README.md"
 edition = "2021"
 
 [dependencies]
-animegame-core = { path = "anime-game-core" }
+animegame-core = { path = "anime-game-core", features = ["install"] }
 commandor = "0.1.0"
 colorful = "0.2.1"
