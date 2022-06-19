@@ -1,10 +1,12 @@
 use commandor::prelude::*;
 
-mod commands;
+pub mod commands;
+pub mod lib;
 
 fn main() {
     let manager = Manager::new(vec![
-        commands::Info::new()
+        commands::Info::new(),
+        // commands::Voice::new()
     ]);
 
     println!("\n Anime Game CLI\n");
