@@ -50,7 +50,7 @@ impl Command for Info {
         let mut latest_version = None;
 
         match game.try_get_diff() {
-            Ok(GameVersionDiff::NotInstalled { latest, data: _, game_path: _ }) => {
+            Ok(VersionDiff::NotInstalled { latest, .. }) => {
                 warn(vec![
                     "Game is not installed".to_string(),
                     format!("Latest version: {}", latest.to_string().light_green())
@@ -59,7 +59,7 @@ impl Command for Info {
                 // Interrupt command execution
                 return true;
             },
-            Ok(GameVersionDiff::Outdated { current, latest }) => {
+            Ok(VersionDiff::Outdated { current, latest }) => {
                 warn(vec![
                     "Your game installation is too outdated".to_string(),
                     format!("Current version: {}", current.to_string().light_red()),
@@ -68,19 +68,19 @@ impl Command for Info {
 
                 latest_version = Some(latest);
             },
-            Ok(GameVersionDiff::Latest(version)) => {
+            Ok(VersionDiff::Latest(version)) => {
                 notice(format!("Latest version: {}", version.to_string().light_green()));
 
                 latest_version = Some(version);
             },
-            Ok(GameVersionDiff::Diff { current, latest, data, game_path: _ }) => {
+            Ok(VersionDiff::Diff { current, latest, unpacked_size, .. }) => {
                 notice(vec![
                     format!(
                         "Game update available: {} -> {}",
                         current.to_string().light_yellow(),
                         latest.to_string().light_green()
                     ),
-                    format!("Update size: {} GB", format_size(data.size.parse::<u64>().unwrap()).to_string().light_cyan())
+                    format!("Update size: {} GB", format_size(unpacked_size).to_string().light_cyan())
                 ]);
 
                 latest_version = Some(latest);
@@ -92,7 +92,7 @@ impl Command for Info {
 
         match game.get_voice_packages() {
             Ok(packages) => {
-                for mut package in packages {
+                for package in packages {
                     println!(" - {} ({} - {} GB)", package.locale().to_name(), {
                         match package.try_get_version() {
                             Some(version) => match latest_version {
