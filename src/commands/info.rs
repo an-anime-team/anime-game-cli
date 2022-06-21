@@ -19,7 +19,7 @@ impl Info {
     pub fn new() -> Box<Self> {
         Box::new(Self {
             args: vec![
-                Default::new("--game", vec!["--path", "-g", "-p"], true)
+                // Default::new("--game", vec!["--path", "-g", "-p"], true)
             ]
         })
     }
@@ -37,15 +37,15 @@ impl Command for Info {
     fn execute(&self, _: Vec<String>, values: Vec<ArgumentValue>) -> bool {
         let config = config::get().expect("Failed to load config");
 
-        let game = if values.len() > 0 {
-            Game::new(values[0].value.clone())
-        } else {
+        let game = {
             if config.paths.game == "" {
                 notice("You didn't specify the game path\n");
             }
 
             Game::new(config.paths.game)
         };
+
+        // Game info
 
         let mut latest_version = None;
 
@@ -88,6 +88,27 @@ impl Command for Info {
             Err(_) => todo!(),
         }
 
+        // Patch status
+
+        match Patch::try_fetch(config.patch.hosts) {
+            Ok(patch) => {
+                match patch {
+                    Patch::NotAvailable => warn("Patch is not available"),
+                    Patch::Outdated { current, latest, .. } => warn(format!("Patch is outdated ({} -> {})", current, latest)),
+                    Patch::Preparation { version, .. } => warn(format!("Patch is in preparation state ({})", version)), // TODO: is prev patch applied
+                    
+                    patch => notice(format!("Patch status: {}", match patch.is_applied(game.path()) {
+                        Ok(true) => "applied".light_green(),
+                        Ok(false) => "not applied".light_red(),
+                        Err(err) => format!("failed to verify: {}", err).light_yellow()
+                    }))
+                }
+            },
+            Err(err) => error(format!("Failed to fetch patch status: {}", err.to_string()))
+        }
+
+        // Installed voice packages
+
         println!("\n Installed voice packages:");
 
         match game.get_voice_packages() {
@@ -116,6 +137,8 @@ impl Command for Info {
             },
             Err(err) => error(format!("Failed to get installed voice packages: {}", err.to_string()))
         }
+
+        // Available voice packages
 
         println!("\n Available voice packages:");
 

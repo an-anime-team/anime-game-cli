@@ -43,7 +43,8 @@ pub fn update(config: Config) -> Result<(), Error> {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Config {
-    pub paths: Paths
+    pub paths: Paths,
+    pub patch: Patch
 }
 
 impl Default for Config {
@@ -51,6 +52,11 @@ impl Default for Config {
         Self {
             paths: Paths {
                 game: String::new()
+            },
+            patch: Patch {
+                hosts: vec![
+                    String::from("https://notabug.org/Krock/dawn")
+                ]
             }
         }
     }
@@ -59,4 +65,9 @@ impl Default for Config {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Paths {
     pub game: String
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Patch {
+    pub hosts: Vec<String>
 }
