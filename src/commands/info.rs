@@ -5,11 +5,7 @@ use anime_game_core::prelude::*;
 
 use crate::lib::config;
 use crate::lib::output::*;
-
-/// Convert bytes to gigabytes with 2 digits round
-fn format_size(bytes: u64) -> f64 {
-    (bytes as f64 / 1024.0 / 1024.0 / 1024.0 * 100.0).ceil() / 100.0
-}
+use crate::lib::format_size;
 
 pub struct Info {
     args: Vec<Box<dyn Argument>>

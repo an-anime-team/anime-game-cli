@@ -4,23 +4,20 @@ WIP
 
 ## Roadmap to 1.0.0
 
-- Game installation
-  - Installation info (current + latest, needs update or not)
-  - Install the game (calculate installation difference)
-  - Update existing installation
-  - Repair game files
-- Voice packages
-  - Installed, available and need to be updated or not
-  - Update outdated package
-  - Repair broken packages
-- Wine
-  - Download / Delete
-  - Create prefix
-- DXVK
-  - Download / Delete
-  - Apply
-- Patch
-  - Status (current, latest, needs to be applied, ...)
-  - Apply patch
-- Run the game
-  - Additional features (todo)
+| status | command | subcommand | description |
+| - | - | - | - |
+| ❌ | game | info | Get installed game info |
+| ❌ | | download | Download the game |
+| ❌ | | update | Update the game |
+| ❌ | | repair | Repair the game and installed voice packages |
+| ✅ | voice | info | List installed voice packages |
+| ❌ | | install | Install additional voice package |
+| ❌ | | update | Update voice packages |
+| ❌ | | remove | Remove voice package |
+| ❌ | | repair | Repair (only) voice packages |
+| ❌ | patch | info | Get info about linux patch |
+| ❌ | | apply | Apply patch |
+| ❌ | | update | Update patch |
+| ❌ | | revert | Revert patch |
+| ✅ | info | | Get info about game, patch and voice packages |
+| ❌ | run | | Run the game |

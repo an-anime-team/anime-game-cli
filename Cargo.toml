@@ -12,3 +12,4 @@ commandor = "0.1.0"
 colorful = "0.2.1"
 toml = "0.5.9"
 serde = { version = "1.0", features = ["derive"] }
+cli-table = "0.4.7"
