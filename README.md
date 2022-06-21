@@ -15,7 +15,7 @@ WIP
 | ❌ | | update | Update voice packages |
 | ❌ | | remove | Remove voice package |
 | ❌ | | repair | Repair (only) voice packages |
-| ❌ | patch | info | Get info about linux patch |
+| ✅ | patch | info | Get info about linux patch |
 | ❌ | | apply | Apply patch |
 | ❌ | | update | Update patch |
 | ❌ | | revert | Revert patch |

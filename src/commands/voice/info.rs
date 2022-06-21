@@ -55,6 +55,7 @@ impl Command for VoiceInfo {
 
         for package in game.get_voice_packages().expect("Failed to get voice packages") {
             table.push(vec![
+                "[X]".light_green().cell(),
                 package.locale().to_name().light_green().cell(),
                 format!("{} GB", format_size(package.get_size())).cell(),
                 match package.try_get_version() {
@@ -77,6 +78,7 @@ impl Command for VoiceInfo {
         for package in VoicePackage::list_latest().expect("Failed to list voice packages") {
             if !package.is_installed_in(game.path()) {
                 table.push(vec![
+                    "[ ]".cell(),
                     package.locale().to_name().cell(),
                     format!("{} GB", format_size(package.get_size())).cell(),
                     match package.try_get_version() {
@@ -87,7 +89,7 @@ impl Command for VoiceInfo {
             }
         }
 
-        let table = table.table().title(vec!["Name", "Size", "Version"]);
+        let table = table.table().title(vec![" I", "Name", "Size", "Version"]);
 
         print_stdout(table);
 
