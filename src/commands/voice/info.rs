@@ -57,7 +57,7 @@ impl Command for VoiceInfo {
             table.push(vec![
                 "[X]".light_green().cell(),
                 package.locale().to_name().light_green().cell(),
-                format!("{} GB", format_size(package.get_size())).cell(),
+                format!("{} GB", format_size(package.size().0)).cell(),
                 match package.try_get_version() {
                     Some(version) => {
                         if version == latest_version {
@@ -80,7 +80,7 @@ impl Command for VoiceInfo {
                 table.push(vec![
                     "[ ]".cell(),
                     package.locale().to_name().cell(),
-                    format!("{} GB", format_size(package.get_size())).cell(),
+                    format!("{} GB", format_size(package.size().0)).cell(),
                     match package.try_get_version() {
                         Some(version) => version.to_string(),
                         None => "failed to get".light_red().to_string()

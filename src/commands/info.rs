@@ -127,7 +127,7 @@ impl Command for Info {
                             None => "?".to_string().light_red()
                         }
                     }, {
-                        format_size(package.get_size()).to_string().light_cyan()
+                        format_size(package.size().0).to_string().light_cyan()
                     });
                 }
             },
@@ -143,7 +143,7 @@ impl Command for Info {
                 for package in packages {
                     if !package.is_installed_in(game.path()) {
                         println!(" - {} ({} GB)", package.locale().to_name(), {
-                            format_size(package.get_size()).to_string().light_cyan()
+                            format_size(package.size().0).to_string().light_cyan()
                         });
                     }
                 }

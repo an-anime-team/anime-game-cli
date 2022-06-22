@@ -110,7 +110,6 @@ impl Command for GameRepair {
                 let progress = Arc::new(Mutex::new(linya::Progress::new()));
 
                 // Prepare threads
-                let step = files.len() / verify_threads;
                 let average_thread_size = calc_size(&files) / verify_threads as u64;
 
                 let mut i = 0;
