@@ -9,7 +9,7 @@ WIP
 | ✅ | game | info | Get installed game info |
 | ❌ | | download | Download the game |
 | ❌ | | update | Update the game |
-| ❌ | | repair | Repair the game and installed voice packages |
+| ✅ | | repair | Repair the game and installed voice packages |
 | ✅ | voice | info | List installed voice packages |
 | ❌ | | download | Install additional voice package |
 | ❌ | | update | Update voice packages |
