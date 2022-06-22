@@ -6,6 +6,8 @@ WIP
 
 | status | command | subcommand | description |
 | - | - | - | - |
+| ❌ | config | set | Set config value |
+| ❌ | | get | Get config value |
 | ✅ | game | info | Get installed game info |
 | ❌ | | download | Download the game |
 | ❌ | | update | Update the game |

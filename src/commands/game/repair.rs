@@ -10,6 +10,16 @@ use crate::lib::config;
 use crate::lib::output::*;
 use crate::lib::format_size;
 
+fn calc_size(files: &Vec<anime_game_core::repairer::IntegrityFile>) -> u64 {
+    let mut size = 0;
+
+    for file in files {
+        size += file.size;
+    }
+
+    size
+}
+
 pub struct GameRepair {
     args: Vec<Box<dyn Argument>>
 }
@@ -74,8 +84,6 @@ impl Command for GameRepair {
 
         notice("Fetching integrity files...");
 
-        // TODO: concurrent files repairing
-
         match repairer::try_get_integrity_files() {
             Ok(mut files) => {
                 // Skip ignored files
@@ -103,37 +111,43 @@ impl Command for GameRepair {
 
                 // Prepare threads
                 let step = files.len() / verify_threads;
+                let average_thread_size = calc_size(&files) / verify_threads as u64;
 
-                for i in 0..verify_threads {
-                    let files_part = Vec::from(if i == verify_threads - 1 {
-                        &files[i * step..]
-                    } else {
-                        &files[i * step..(i + 1) * step]
-                    });
+                let mut i = 0;
+                let mut j = 0;
 
-                    let mut files_size = 0;
+                for _ in 0..verify_threads {
+                    let mut files_part = Vec::new();
+                    let mut files_part_size = 0;
 
-                    for file in &files_part {
-                        files_size += file.size;
+                    while files_part_size < average_thread_size && i < files.len() {
+                        files_part.push(files[i].clone());
+                        files_part_size += files[i].size;
+
+                        i += 1;
                     }
 
-                    let game_path_ref = game_path.clone();
+                    if files_part.len() > 0 {
+                        let game_path_ref = game_path.clone();
 
-                    let thread_progress = progress.clone();
-                    let thread_broken_send = broken_send.clone();
+                        let thread_progress = progress.clone();
+                        let thread_broken_send = broken_send.clone();
 
-                    let bar = thread_progress.lock().unwrap().bar(files_part.len(), format!("Thread {} ({} GB)", i + 1, format_size(files_size)));
+                        j += 1;
 
-                    // Run thread
-                    handlers.push(std::thread::spawn(move || {
-                        for file in files_part {
-                            if !file.verify(game_path_ref.clone()) {
-                                thread_broken_send.send(file);
+                        let bar = thread_progress.lock().unwrap().bar(files_part.len(), format!("Thread {} ({} GB of {} files)", j, format_size(files_part_size), files_part.len()));
+
+                        // Run thread
+                        handlers.push(std::thread::spawn(move || {
+                            for file in files_part {
+                                if !file.verify(game_path_ref.clone()) {
+                                    thread_broken_send.send(file);
+                                }
+
+                                thread_progress.lock().unwrap().inc_and_draw(&bar, 1);
                             }
-
-                            thread_progress.lock().unwrap().inc_and_draw(&bar, 1);
-                        }
-                    }));
+                        }));
+                    }
                 }
 
                 // Sync threads
@@ -183,18 +197,12 @@ impl Command for GameRepair {
                             &broken_files[i * step..(i + 1) * step]
                         });
 
-                        let mut files_size = 0;
-
-                        for file in &files_part {
-                            files_size += file.size;
-                        }
-
                         let game_path_ref = game_path.clone();
 
                         let thread_progress = progress.clone();
                         let thread_failed_send = failed_send.clone();
 
-                        let bar = thread_progress.lock().unwrap().bar(files_part.len(), format!("Thread {} ({} GB)", i + 1, format_size(files_size)));
+                        let bar = thread_progress.lock().unwrap().bar(files_part.len(), format!("Thread {} ({} GB of {} files)", i + 1, format_size(calc_size(&files_part)), files_part.len()));
 
                         // Run thread
                         handlers.push(std::thread::spawn(move || {
