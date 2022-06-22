@@ -21,3 +21,15 @@ WIP
 | ❌ | | revert | Revert patch |
 | ✅ | info | | Get info about game, patch and voice packages |
 | ❌ | run | | Run the game |
+
+## Mini-wiki
+
+### game repair
+
+| argument | description | example |
+| - | - | - |
+| `--threads (-t)` | Number of threads used to verify and repair files | `./anime-game-cli game repair -t 12` |
+| `--verify-threads (-vt)` | Number of threads used to verify files | `./anime-game-cli game repair -vt 12` |
+| `--repair-threads (-rt)` | Number of threads used to repair files | `./anime-game-cli game repair -rt 12` |
+| `--ignore (-i, --skip)` | List of names repairer will avoid to repair files with | `./anime-game-cli game repair --ignore='unity,xdelta,report'` |
+| `--verify (-v` | Don't repair files and just print broken ones | `./anime-game-cli game repair -v` |
