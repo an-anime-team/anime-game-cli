@@ -30,7 +30,7 @@ impl Command for Info {
         &self.args
     }
 
-    fn execute(&self, _: Vec<String>, values: Vec<ArgumentValue>) -> bool {
+    fn execute(&self, _: Vec<String>, _: Vec<ArgumentValue>) -> bool {
         let config = config::get().expect("Failed to load config");
 
         let game = {

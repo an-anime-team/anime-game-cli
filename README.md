@@ -6,12 +6,12 @@ WIP
 
 | status | command | subcommand | description |
 | - | - | - | - |
-| ❌ | game | info | Get installed game info |
+| ✅ | game | info | Get installed game info |
 | ❌ | | download | Download the game |
 | ❌ | | update | Update the game |
 | ❌ | | repair | Repair the game and installed voice packages |
 | ✅ | voice | info | List installed voice packages |
-| ❌ | | install | Install additional voice package |
+| ❌ | | download | Install additional voice package |
 | ❌ | | update | Update voice packages |
 | ❌ | | remove | Remove voice package |
 | ❌ | | repair | Repair (only) voice packages |
