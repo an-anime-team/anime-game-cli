@@ -6,8 +6,6 @@ WIP
 
 | status | command | subcommand | description |
 | - | - | - | - |
-| ❌ | config | set | Set config value |
-| ❌ | | get | Get config value |
 | ✅ | game | info | Get installed game info |
 | ❌ | | download | Download the game |
 | ❌ | | update | Update the game |
@@ -22,7 +20,7 @@ WIP
 | ❌ | | update | Update patch |
 | ❌ | | revert | Revert patch |
 | ✅ | info | | Get info about game, patch and voice packages |
-| ❌ | run | | Run the game |
+| ✅ | run | | Run the game |
 
 ## Mini-wiki
 
@@ -35,3 +33,26 @@ WIP
 | `--repair-threads (-rt)` | Number of threads used to repair files | `./anime-game-cli game repair -rt 12` |
 | `--ignore (-i, --skip)` | List of names repairer will avoid to repair files with | `./anime-game-cli game repair --ignore='unity,xdelta,report'` |
 | `--verify (-v` | Don't repair files and just print broken ones | `./anime-game-cli game repair -v` |
+
+> Note that more verification threads means more memory consumption as they need to store and calculate huge binaries' hashes
+>
+> That being said, 16 threads can consume up to 1.3 GB of RAM
+
+### run
+
+Example `config.toml` file:
+
+```toml
+[paths]
+game = "/path/to/Genshin Impact" # Path to the game folder
+
+[patch]
+hosts = ["https://path-to.com/linux/patch"] # Linux patch hosts
+
+[wine]
+prefix = "/path/to/lutris-GE-Proton7-16-x86_64" # Wine prefix
+executable = "/path/to/lutris-GE-Proton7-16-x86_64/bin/wine64" # Wine executable
+
+# Environment variables
+environment = { LANG = "ru_RU.UTF8" }
+```

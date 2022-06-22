@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::{fs::File, io::Read};
 use std::path::Path;
 use std::io::{Error, ErrorKind, Write};
@@ -44,7 +45,8 @@ pub fn update(config: Config) -> Result<(), Error> {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Config {
     pub paths: Paths,
-    pub patch: Patch
+    pub patch: Patch,
+    pub wine: Wine
 }
 
 impl Default for Config {
@@ -57,6 +59,11 @@ impl Default for Config {
                 hosts: vec![
                     String::from("https://notabug.org/Krock/dawn")
                 ]
+            },
+            wine: Wine {
+                prefix: String::new(),
+                executable: String::new(),
+                environment: HashMap::new()
             }
         }
     }
@@ -70,4 +77,11 @@ pub struct Paths {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Patch {
     pub hosts: Vec<String>
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Wine {
+    pub prefix: String,
+    pub executable: String,
+    pub environment: HashMap<String, String>
 }
