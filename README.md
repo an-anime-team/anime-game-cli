@@ -9,12 +9,12 @@ WIP
 | ✅ | game | info | Get installed game info |
 | ❌ | | download | Download the game |
 | ❌ | | update | Update the game |
-| ✅ | | repair | Repair the game and installed voice packages |
+| ✅ | | repair | Repair the game |
 | ✅ | voice | info | List installed voice packages |
 | ❌ | | download | Install additional voice package |
 | ❌ | | update | Update voice packages |
 | ❌ | | remove | Remove voice package |
-| ❌ | | repair | Repair (only) voice packages |
+| ✅ | | repair | Repair voice packages |
 | ✅ | patch | info | Get info about linux patch |
 | ❌ | | apply | Apply patch |
 | ❌ | | update | Update patch |
@@ -37,6 +37,20 @@ WIP
 > Note that more verification threads means more memory consumption as they need to store and calculate huge binaries' hashes
 >
 > That being said, 16 threads can consume up to 1.3 GB of RAM
+
+### voice repair
+
+```
+./anime-game-cli voice repair [packages names] [arguments]
+```
+
+Example:
+
+```
+./anime-game-cli voice repair english japanese -v
+```
+
+Uses the same arguments as `game repair`
 
 ### run
 

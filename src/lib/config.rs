@@ -42,39 +42,19 @@ pub fn update(config: Config) -> Result<(), Error> {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Default)]
 pub struct Config {
     pub paths: Paths,
     pub patch: Patch,
     pub wine: Wine
 }
 
-impl Default for Config {
-    fn default() -> Self {
-        Self {
-            paths: Paths {
-                game: String::new()
-            },
-            patch: Patch {
-                hosts: vec![
-                    String::from("https://notabug.org/Krock/dawn")
-                ]
-            },
-            wine: Wine {
-                prefix: String::new(),
-                executable: String::new(),
-                environment: HashMap::new()
-            }
-        }
-    }
-}
-
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Default)]
 pub struct Paths {
     pub game: String
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Default)]
 pub struct Patch {
     pub hosts: Vec<String>
 }
@@ -84,4 +64,14 @@ pub struct Wine {
     pub prefix: String,
     pub executable: String,
     pub environment: HashMap<String, String>
+}
+
+impl Default for Wine {
+    fn default() -> Self {
+        Self {
+            prefix: String::new(),
+            executable: String::new(),
+            environment: HashMap::new()
+        }
+    }
 }

@@ -77,33 +77,36 @@ impl Command for VoiceDownload {
                     handlers.push(std::thread::spawn(move || {
                         let (download_size, unpacked_size) = diff.get_size().unwrap();
                         
-                        let bar = Arc::new(thread_progress.lock().unwrap().bar(
-                            (download_size + unpacked_size) as usize,
+                        let downloading_bar = Arc::new(thread_progress.lock().unwrap().bar(
+                            download_size as usize,
                             format!("{} ({} GB)", package.locale().to_name(), format_size(download_size))
+                        ));
+
+                        let unpacking_bar = Arc::new(thread_progress.lock().unwrap().bar(
+                            unpacked_size as usize,
+                            format!("{} ({} GB)", package.locale().to_name(), format_size(unpacked_size))
                         ));
 
                         let result = diff.install_to(thread_game_path, move |state| {
                             let mut thread_progress = thread_progress.lock().unwrap();
 
                             match state {
-                                InstallerUpdate::DownloadingStarted(_) => {
-                                    thread_progress.set_and_draw(&bar, 0);
-                                },
+                                InstallerUpdate::DownloadingStarted(_) => (),
                                 InstallerUpdate::DownloadingProgress(curr, _) => {
-                                    thread_progress.set_and_draw(&bar, curr as usize);
+                                    thread_progress.set_and_draw(&downloading_bar, curr as usize);
                                 },
                                 InstallerUpdate::DownloadingFinished => {
-                                    thread_progress.set_and_draw(&bar, download_size as usize);
+                                    thread_progress.set_and_draw(&downloading_bar, download_size as usize);
                                 },
                                 InstallerUpdate::DownloadingError(_) => {
                                     // error("Failed to download package"); // todo
                                 },
                                 InstallerUpdate::UnpackingStarted(_) => (),
                                 InstallerUpdate::UnpackingProgress(curr, _) => {
-                                    thread_progress.set_and_draw(&bar, (download_size + curr) as usize);
+                                    thread_progress.set_and_draw(&unpacking_bar, curr as usize);
                                 },
                                 InstallerUpdate::UnpackingFinished => {
-                                    thread_progress.set_and_draw(&bar, (download_size + unpacked_size) as usize);
+                                    thread_progress.set_and_draw(&unpacking_bar, unpacked_size as usize);
                                 },
                                 InstallerUpdate::UnpackingError => {
                                     // error("Failed to unpack package"); // todo

@@ -2,6 +2,7 @@ use commandor::prelude::*;
 
 pub mod info;
 pub mod download;
+pub mod repair;
 
 pub struct Voice {
     args: Vec<Box<dyn Argument>>
@@ -27,7 +28,8 @@ impl Command for Voice {
     fn execute(&self, args: Vec<String>, _: Vec<ArgumentValue>) -> bool {
         let manager = Manager::new(vec![
             info::VoiceInfo::new(),
-            download::VoiceDownload::new()
+            download::VoiceDownload::new(),
+            repair::VoiceRepair::new()
         ]);
     
         match manager.execute(args[1..].to_vec()) {
