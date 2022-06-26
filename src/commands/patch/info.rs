@@ -46,14 +46,14 @@ impl Command for PatchInfo {
                     // Testing / Available
                     patch => {
                         notice(vec![
-                            format!("Patch status: {}", {
+                            format!("Patch status: {} ({})", {
                                 if let Patch::Testing { .. } = patch {
                                     "testing".light_yellow()
                                 } else {
                                     "stable".light_green()
                                 }
-                            }),
-                            format!("Status {}", match patch.is_applied(config.paths.game) {
+                            }, patch.to_version().unwrap()),
+                            format!("Status: {}", match patch.is_applied(config.paths.game) {
                                 Ok(true) => "applied".light_green(),
                                 Ok(false) => "not applied".light_red(),
                                 Err(err) => format!("failed to check: {}", err).light_red()

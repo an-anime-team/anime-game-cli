@@ -5,7 +5,7 @@ WIP
 ## Roadmap to 1.0.0
 
 | status | command | subcommand | description |
-| - | - | - | - |
+| :-: | - | - | - |
 | ✅ | game | info | Get installed game info |
 | ❌ | | download | Download the game |
 | ❌ | | update | Update the game |
@@ -18,7 +18,7 @@ WIP
 | ✅ | patch | info | Get info about linux patch |
 | ✅ | | sync | Sync latest patch from remote repo |
 | ✅ | | apply | Apply patch |
-| ❌ | | revert | Revert patch |
+| ✅ | | revert | Revert patch |
 | ✅ | info | | Get info about game, patch and voice packages |
 | ✅ | run | | Run the game |
 
@@ -79,3 +79,11 @@ Syncs linux patch with remote repository
 | argument | description | example |
 | - | - | - |
 | `--recursive (-r)` | Try each provided repository untill it's succeeded. Otherwise will be used the first one | `./anime-game-cli patch sync -r` |
+
+### patch revert
+
+Revert linux patch from the game
+
+| argument | description | example |
+| - | - | - |
+| `--force (-f)` | Avoid checking of the files timestamps | `./anime-game-cli patch revert -f` |
