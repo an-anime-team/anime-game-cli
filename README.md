@@ -1,6 +1,8 @@
 # 🦀 Anime Game CLI
 
-WIP
+CLI tool to manage your Anime Game installation
+
+This is not and will not be the primary project, and most of the effort will always be given to other projects, including GUI launcher. That being said, this project is used more like a test site to test the [anime core library](https://gitlab.com/an-anime-team/anime-game-core)
 
 ## Roadmap to 1.0.0
 
