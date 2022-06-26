@@ -16,8 +16,8 @@ WIP
 | ❌ | | remove | Remove voice package |
 | ✅ | | repair | Repair voice packages |
 | ✅ | patch | info | Get info about linux patch |
+| ✅ | | sync | Sync latest patch from remote repo |
 | ❌ | | apply | Apply patch |
-| ❌ | | update | Update patch |
 | ❌ | | revert | Revert patch |
 | ✅ | info | | Get info about game, patch and voice packages |
 | ✅ | run | | Run the game |
@@ -68,5 +68,14 @@ prefix = "/path/to/lutris-GE-Proton7-16-x86_64" # Wine prefix
 executable = "/path/to/lutris-GE-Proton7-16-x86_64/bin/wine64" # Wine executable
 
 # Environment variables
-environment = { LANG = "ru_RU.UTF8" }
+[wine.environment]
+LANG = "ru_RU.UTF8"
 ```
+
+### patch sync
+
+Syncs linux patch with remote repository
+
+| argument | description | example |
+| - | - | - |
+| `--recursive (-r)` | Try each provided repository untill it's succeeded. Otherwise will be used the first one | `./anime-game-cli patch sync -r` |

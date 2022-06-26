@@ -51,7 +51,8 @@ pub struct Config {
 
 #[derive(Debug, Serialize, Deserialize, Default)]
 pub struct Paths {
-    pub game: String
+    pub game: String,
+    pub patch: String
 }
 
 #[derive(Debug, Serialize, Deserialize, Default)]
