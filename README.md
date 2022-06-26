@@ -17,7 +17,7 @@ WIP
 | ✅ | | repair | Repair voice packages |
 | ✅ | patch | info | Get info about linux patch |
 | ✅ | | sync | Sync latest patch from remote repo |
-| ❌ | | apply | Apply patch |
+| ✅ | | apply | Apply patch |
 | ❌ | | revert | Revert patch |
 | ✅ | info | | Get info about game, patch and voice packages |
 | ✅ | run | | Run the game |

@@ -2,6 +2,7 @@ use commandor::prelude::*;
 
 pub mod info;
 pub mod sync;
+pub mod apply;
 
 pub struct Patch {
     args: Vec<Box<dyn Argument>>
@@ -27,7 +28,8 @@ impl Command for Patch {
     fn execute(&self, args: Vec<String>, _: Vec<ArgumentValue>) -> bool {
         let manager = Manager::new(vec![
             info::PatchInfo::new(),
-            sync::PatchSync::new()
+            sync::PatchSync::new(),
+            apply::PatchApply::new()
         ]);
     
         match manager.execute(args[1..].to_vec()) {
