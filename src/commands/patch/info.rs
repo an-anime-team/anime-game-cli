@@ -30,6 +30,8 @@ impl Command for PatchInfo {
     fn execute(&self, _: Vec<String>, _: Vec<ArgumentValue>) -> bool {
         let config = config::get().expect("Failed to load config");
 
+        notice("Fetching latest patch info...");
+
         match Patch::try_fetch(config.patch.hosts) {
             Ok(patch) => {
                 match patch {

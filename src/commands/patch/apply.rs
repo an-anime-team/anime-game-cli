@@ -13,7 +13,9 @@ pub struct PatchApply {
 impl PatchApply {
     pub fn new() -> Box<Self> {
         Box::new(Self {
-            args: vec![]
+            args: vec![
+                Flag::with_name("--no-root")
+            ]
         })
     }
 }
@@ -27,13 +29,22 @@ impl Command for PatchApply {
         &self.args
     }
 
-    fn execute(&self, _: Vec<String>, _: Vec<ArgumentValue>) -> bool {
+    fn execute(&self, _: Vec<String>, args: Vec<ArgumentValue>) -> bool {
         let config = config::get().expect("Failed to load config");
 
         if config.patch.hosts.len() == 0 {
             error("Missing patch hosts");
 
             return false;
+        }
+
+        let mut no_root = false;
+
+        for arg in args {
+            match arg.value.as_str() {
+                "--no-root" => no_root = true,
+                _ => unreachable!()
+            }
         }
 
         let patch = PatchApplier::new(config.paths.patch);
@@ -51,7 +62,7 @@ impl Command for PatchApply {
                             Ok(false) => {
                                 notice("Applying patch...");
 
-                                match patch.apply(config.paths.game, patch_info) {
+                                match patch.apply(config.paths.game, patch_info, !no_root) {
                                     Ok(true) => notice("Patch successfully applied"),
                                     Ok(false) => warn("Failed to apply patch"),
                                     Err(err) => error(format!("Failed to apply patch: {}", err))

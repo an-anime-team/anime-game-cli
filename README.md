@@ -82,6 +82,14 @@ Syncs linux patch with remote repository
 | - | - | - |
 | `--recursive (-r)` | Try each provided repository untill it's succeeded. Otherwise will be used the first one | `./anime-game-cli patch sync -r` |
 
+### patch apply
+
+Apply linux patch to the game
+
+| argument | description | example |
+| - | - | - |
+| `--no-root` | Don't use `pkexec` to run the `patch.sh` script. Can be used if you don't want to update `/etc/hosts` file | `./anime-game-cli patch apply --no-root` |
+
 ### patch revert
 
 Revert linux patch from the game
