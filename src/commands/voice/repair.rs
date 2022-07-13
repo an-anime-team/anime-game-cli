@@ -42,7 +42,9 @@ impl RepairFiles for VoiceRepair {
 
         let locales = locales.into_iter().fold(String::new(), |acc, s| acc + s.to_name() + ", ");
 
-        notice(format!("Verifying locales: {}", &locales[..locales.len() - 2]));
+        if locales.len() > 0 {
+            notice(format!("Verifying locales: {}", &locales[..locales.len() - 2]));
+        }
 
         Ok(files)
     }
