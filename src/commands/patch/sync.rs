@@ -37,7 +37,7 @@ impl Command for PatchSync {
             return false;
         }
 
-        // Try to sync with all available repos until it's not succeeded
+        // Try to sync with all available repos until it doesn't succeed
         let mut recursive = false;
 
         for arg in args {

@@ -73,7 +73,7 @@ impl Command for VoiceInfo {
             ]);
         }
 
-        // List not installed packages
+        // List packages that aren't installed
 
         for package in VoicePackage::list_latest().expect("Failed to list voice packages") {
             if !package.is_installed_in(game.path()) {

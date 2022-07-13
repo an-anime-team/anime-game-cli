@@ -38,7 +38,7 @@ This is not and will not be the primary project, and most of the effort will alw
 
 > Note that more verification threads means more memory consumption as they need to store and calculate huge binaries' hashes
 >
-> That being said, 16 threads can consume up to 1.3 GB of RAM
+> That being said, 16 threads can consume up to 1.3 GB of RAM (based on HDD speed, NVMe ssds will have higher consumption in general)
 
 ### voice repair
 
