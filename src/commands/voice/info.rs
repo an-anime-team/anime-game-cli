@@ -59,7 +59,7 @@ impl Command for VoiceInfo {
                 package.locale().to_name().light_green().cell(),
                 format!("{} GB", format_size(package.size().0)).cell(),
                 match package.try_get_version() {
-                    Some(version) => {
+                    Ok(version) => {
                         if version == latest_version {
                             // Latest version
                             version.to_string()
@@ -68,7 +68,7 @@ impl Command for VoiceInfo {
                             version.to_string().light_red().to_string()
                         }
                     },
-                    None => "failed to get".light_red().to_string()
+                    Err(_) => "failed to get".light_red().to_string()
                 }.cell()
             ]);
         }
@@ -82,8 +82,8 @@ impl Command for VoiceInfo {
                     package.locale().to_name().cell(),
                     format!("{} GB", format_size(package.size().0)).cell(),
                     match package.try_get_version() {
-                        Some(version) => version.to_string(),
-                        None => "failed to get".light_red().to_string()
+                        Ok(version) => version.to_string(),
+                        Err(_) => "failed to get".light_red().to_string()
                     }.cell()
                 ]);
             }

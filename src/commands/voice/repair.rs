@@ -24,7 +24,7 @@ impl RepairFiles for VoiceRepair {
         for arg in &args[1..] {
             if let Some(locale) = VoiceLocale::from_str(arg) {
                 match VoicePackage::with_locale(locale.clone()) {
-                    Some(package) => {
+                    Ok(package) => {
                         if !package.is_installed_in(&config.paths.game) {
                             warn(format!("{} package is not installed", locale.to_name()))
                         }
@@ -35,7 +35,7 @@ impl RepairFiles for VoiceRepair {
                             files.append(&mut try_get_voice_integrity_files(locale)?);
                         }
                     },
-                    None => warn(format!("Failed to get {} package", locale.to_name()))
+                    Err(err) => warn(format!("Failed to get {} package: {}", locale.to_name(), err))
                 }
             }
         }

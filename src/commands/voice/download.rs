@@ -49,7 +49,7 @@ impl Command for VoiceDownload {
         for arg in &args[1..] {
             match VoiceLocale::from_str(arg) {
                 Some(locale) => match VoicePackage::with_locale(locale) {
-                    Some(package) => {
+                    Ok(package) => {
                         if package.is_installed_in(&game_path) {
                             // TODO: Check for updates
                             notice(format!("{} package is already installed", locale.to_name()))
@@ -59,7 +59,7 @@ impl Command for VoiceDownload {
                             packages.insert(package);
                         }
                     },
-                    None => warn(format!("Failed to get {} package", locale.to_name()))
+                    Err(err) => warn(format!("Failed to get {} package: {}", locale.to_name(), err))
                 },
                 None => warn(format!("Failed to find \"{}\" language", arg))
             }

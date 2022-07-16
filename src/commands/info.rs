@@ -112,7 +112,7 @@ impl Command for Info {
                 for package in packages {
                     println!(" - {} ({} - {} GB)", package.locale().to_name(), {
                         match package.try_get_version() {
-                            Some(version) => match latest_version {
+                            Ok(version) => match latest_version {
                                 Some(latest_version) => if version == latest_version {
                                     // version is latest
                                     version.to_string().light_green()
@@ -124,7 +124,7 @@ impl Command for Info {
                                 None => version.to_string().light_yellow()
                             },
                             // failed to get latest version
-                            None => "?".to_string().light_red()
+                            Err(_) => "?".to_string().light_red()
                         }
                     }, {
                         format_size(package.size().0).to_string().light_cyan()
@@ -139,7 +139,7 @@ impl Command for Info {
         println!("\n Available voice packages:");
 
         match VoicePackage::list_latest() {
-            Some(packages) => {
+            Ok(packages) => {
                 for package in packages {
                     if !package.is_installed_in(game.path()) {
                         println!(" - {} ({} GB)", package.locale().to_name(), {
@@ -148,7 +148,7 @@ impl Command for Info {
                     }
                 }
             },
-            None => error("Failed to get available voice packages")
+            Err(err) => error(format!("Failed to get available voice packages: {}", err))
         }
 
         true
