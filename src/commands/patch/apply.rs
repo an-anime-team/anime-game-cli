@@ -63,8 +63,7 @@ impl Command for PatchApply {
                                 notice("Applying patch...");
 
                                 match patch.apply(config.paths.game, patch_info, !no_root) {
-                                    Ok(true) => notice("Patch successfully applied"),
-                                    Ok(false) => warn("Failed to apply patch"),
+                                    Ok(_) => notice("Patch successfully applied"),
                                     Err(err) => error(format!("Failed to apply patch: {}", err))
                                 }
                             },
