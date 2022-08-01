@@ -15,7 +15,8 @@ pub struct RepairFilesConfig {
     pub verify_threads: usize,
     pub repair_threads: usize,
     pub ignore: Vec<String>,
-    pub just_verify: bool
+    pub just_verify: bool,
+    pub fast: bool
 }
 
 impl std::default::Default for RepairFilesConfig {
@@ -24,7 +25,8 @@ impl std::default::Default for RepairFilesConfig {
             verify_threads: 4,
             repair_threads: 4,
             ignore: vec![],
-            just_verify: false
+            just_verify: false,
+            fast: false
         }
     }
 }
@@ -43,6 +45,7 @@ impl RepairFilesConfig {
                 "--repair-threads" => config.repair_threads = arg.value.parse::<usize>().expect("Wrong threads num"),
                 "--ignore" => config.ignore = arg.value.split(",").map(|f| f.to_string()).collect(),
                 "--verify" => config.just_verify = true,
+                "--fast" => config.fast = true,
                 _ => unreachable!()
             }
         }
@@ -68,7 +71,8 @@ pub trait RepairFiles {
             Default::new("--verify-threads", vec!["-vt"], true),
             Default::new("--repair-threads", vec!["-rt"], true),
             Setter::new("--ignore", vec!["-i", "--skip"], "=", true), // Case insensitive
-            Flag::new("--verify", vec!["-v"]) // Verify only; don't repair
+            Flag::new("--verify", vec!["-v"]), // Verify only; don't repair
+            Flag::new("--fast", vec!["-f"]) // Fast mode; compares files' sizes only
         ]
     }
 
@@ -151,7 +155,13 @@ pub trait RepairFiles {
                         // Run thread
                         handlers.push(std::thread::spawn(move || {
                             for file in files_part {
-                                if !file.verify(game_path_ref.clone()) {
+                                let status = if repairing_config.fast {
+                                    file.fast_verify(&game_path_ref)
+                                } else {
+                                    file.verify(&game_path_ref)
+                                };
+
+                                if !status {
                                     thread_broken_send.send(file);
                                 }
 
