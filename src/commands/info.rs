@@ -86,7 +86,7 @@ impl Command for Info {
 
         // Patch status
 
-        match Patch::try_fetch(config.patch.hosts) {
+        match Patch::try_fetch(config.patch.hosts, None) {
             Ok(patch) => {
                 match patch {
                     Patch::NotAvailable => warn("Patch is not available"),

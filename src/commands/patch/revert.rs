@@ -53,7 +53,7 @@ impl Command for PatchRevert {
             Ok(true) => {
                 notice("Fetching latest patch info...");
 
-                match Patch::try_fetch(config.patch.hosts.clone()) {
+                match Patch::try_fetch(config.patch.hosts.clone(), None) {
                     Ok(patch) => {
                         match patch {
                             Patch::NotAvailable |

@@ -32,7 +32,7 @@ impl Command for PatchInfo {
 
         notice("Fetching latest patch info...");
 
-        match Patch::try_fetch(config.patch.hosts) {
+        match Patch::try_fetch(config.patch.hosts, None) {
             Ok(patch) => {
                 match patch {
                     Patch::NotAvailable => error("Patch is not available"),

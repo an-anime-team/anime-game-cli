@@ -54,7 +54,7 @@ impl Command for PatchApply {
             Ok(true) => {
                 notice("Fetching latest patch info...");
 
-                match Patch::try_fetch(config.patch.hosts) {
+                match Patch::try_fetch(config.patch.hosts, None) {
                     // Successfully fetched latest patch info
                     Ok(patch_info) => {
                         match patch_info.is_applied(&config.paths.game) {
