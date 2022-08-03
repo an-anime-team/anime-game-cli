@@ -244,7 +244,7 @@ pub trait RepairFiles {
 
                     // Print failed to repair files
                     while let Ok((file, err)) = failed_recv.try_recv() {
-                        error(format!("Failed to repair {}: {}", file.path, err));
+                        error(format!("Failed to repair {}: {:?}", file.path, err));
                     }
                 }
             },

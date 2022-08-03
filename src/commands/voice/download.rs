@@ -91,6 +91,7 @@ impl Command for VoiceDownload {
                             let mut thread_progress = thread_progress.lock().unwrap();
 
                             match state {
+                                InstallerUpdate::CheckingFreeSpace(_) => (),
                                 InstallerUpdate::DownloadingStarted(_) => (),
                                 InstallerUpdate::DownloadingProgress(curr, _) => {
                                     thread_progress.set_and_draw(&downloading_bar, curr as usize);
