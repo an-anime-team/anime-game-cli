@@ -9,7 +9,8 @@ fn main() {
         commands::Voice::new(),
         commands::Patch::new(),
         commands::Game::new(),
-        commands::Run::new()
+        commands::Run::new(),
+        commands::Help::new()
     ]);
 
     println!("\n Anime Game CLI\n");
