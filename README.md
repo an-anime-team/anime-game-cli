@@ -23,6 +23,7 @@ This is not and will not be the primary project, and most of the effort will alw
 | ✅ | | revert | Revert patch |
 | ✅ | info | | Get info about game, patch and voice packages |
 | ✅ | run | | Run the game |
+| ✅ | help | | Print help dialog with all commands |
 
 ## Mini-wiki
 
