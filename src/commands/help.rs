@@ -1,4 +1,5 @@
 use commandor::prelude::*;
+
 use crate::lib::output::*;
 
 pub struct Help {
@@ -27,29 +28,30 @@ impl Command for Help {
             "Usage: anime-game-cli [game, patch, ...] [info, download, ...]",
             "",
             "game:",
-            "├─info: Get installed game info",
-            "├─download: Download the game (WIP)",
-            "├─update: Update the game (WIP)",
-            "└─repair: Repair the game",
+            "├─ info: Get installed game info",
+            "├─ download: Download the game (WIP)",
+            "├─ update: Update the game (WIP)",
+            "└─ repair: Repair the game",
             "",
             "voice:",
-            "├─info: List installed voice packages",
-            "├─download: Install additional voice package (WIP)",
-            "├─update: Update voice packages (WIP)",
-            "├─remove: Remove voice package (WIP)",
-            "└─repair: Repair voice packages",
+            "├─ info: List installed voice packages",
+            "├─ download: Install additional voice package (WIP)",
+            "├─ update: Update voice packages (WIP)",
+            "├─ remove: Remove voice package (WIP)",
+            "└─ repair: Repair voice packages",
             "",
             "patch:",
-            "├─info: Get info about the GNU/Linux patch",
-            "├─sync: Sync latest patch from remote repo",
-            "├─apply: Apply patch",
-            "└─revert: Revert patch",
+            "├─ info: Get info about the GNU/Linux patch",
+            "├─ sync: Sync latest patch from remote repo",
+            "├─ apply: Apply patch",
+            "└─ revert: Revert patch",
             "",
             "info: Get info about the game, patch and voice packages",
             "run: Run the game",
             "help: Print this dialog",
             ""
         ]);
+
         true
     }
 }
