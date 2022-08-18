@@ -61,7 +61,7 @@ Example `config.toml` file:
 
 ```toml
 [paths]
-game = "/path/to/Genshin Impact" # Path to the game folder
+game = "/path/to/Yor Game" # Path to the game folder
 
 [patch]
 hosts = ["https://path-to.com/linux/patch"] # Linux patch hosts
