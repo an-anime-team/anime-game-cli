@@ -1,10 +1,9 @@
-use std::io::Error;
-
 use commandor::prelude::*;
 
-use anime_game_core::voice_data::locale::VoiceLocale;
-use anime_game_core::voice_data::package::VoicePackage;
-use anime_game_core::repairer::*;
+use anime_game_core::prelude::*;
+use anime_game_core::genshin::prelude::*;
+
+use anime_game_core::genshin::repairer::try_get_voice_integrity_files;
 
 use crate::lib::output::*;
 use crate::lib::config;
@@ -15,7 +14,7 @@ pub struct VoiceRepair {
 }
 
 impl RepairFiles for VoiceRepair {
-    fn try_get_integrity_files(args: Vec<String>) -> Result<Vec<IntegrityFile>, Error> {
+    fn try_get_integrity_files(args: Vec<String>) -> anyhow::Result<Vec<IntegrityFile>> {
         let config = config::get().expect("Failed to get config");
 
         let mut files = Vec::new();
@@ -32,7 +31,7 @@ impl RepairFiles for VoiceRepair {
                         else {
                             locales.push(locale);
 
-                            files.append(&mut try_get_voice_integrity_files(locale)?);
+                            files.append(&mut try_get_voice_integrity_files(locale, None)?);
                         }
                     },
                     Err(err) => warn(format!("Failed to get {} package: {}", locale.to_name(), err))

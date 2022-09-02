@@ -1,8 +1,9 @@
 use commandor::prelude::*;
 use colorful::Colorful;
+use cli_table::{Cell, Table, print_stdout};
 
 use anime_game_core::prelude::*;
-use cli_table::{Cell, Table, print_stdout};
+use anime_game_core::genshin::prelude::*;
 
 use crate::lib::config;
 use crate::lib::output::*;
@@ -91,7 +92,7 @@ impl Command for VoiceInfo {
 
         let table = table.table().title(vec![" I", "Name", "Size", "Version"]);
 
-        print_stdout(table);
+        print_stdout(table).unwrap();
 
         true
     }

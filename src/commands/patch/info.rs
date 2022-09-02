@@ -1,7 +1,8 @@
 use commandor::prelude::*;
 use colorful::Colorful;
 
-use anime_game_core::prelude::*;
+use anime_game_core::prelude::genshin::*;
+use anime_game_core::version::ToVersion;
 
 use crate::lib::config;
 use crate::lib::output::*;

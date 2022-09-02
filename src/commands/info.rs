@@ -2,6 +2,7 @@ use commandor::prelude::*;
 use colorful::Colorful;
 
 use anime_game_core::prelude::*;
+use anime_game_core::genshin::prelude::*;
 
 use crate::lib::config;
 use crate::lib::output::*;
@@ -43,6 +44,7 @@ impl Command for Info {
 
         // Game info
 
+        #[allow(unused_assignments)]
         let mut latest_version = None;
 
         match game.try_get_diff() {

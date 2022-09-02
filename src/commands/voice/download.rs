@@ -4,6 +4,7 @@ use std::sync::{Arc, Mutex};
 use commandor::prelude::*;
 
 use anime_game_core::prelude::*;
+use anime_game_core::genshin::prelude::*;
 
 use crate::lib::config;
 use crate::lib::output::*;
@@ -109,13 +110,13 @@ impl Command for VoiceDownload {
                                 InstallerUpdate::UnpackingFinished => {
                                     thread_progress.set_and_draw(&unpacking_bar, unpacked_size as usize);
                                 },
-                                InstallerUpdate::UnpackingError => {
+                                InstallerUpdate::UnpackingError(_) => {
                                     // error("Failed to unpack package"); // todo
                                 }
                             }
                         });
 
-                        if let Err(err) = result {
+                        if let Err(_) = result {
                             // todo
                         }
                     }));
@@ -125,7 +126,7 @@ impl Command for VoiceDownload {
         }
 
         for handler in handlers {
-            handler.join();
+            handler.join().unwrap();
         }
 
         true

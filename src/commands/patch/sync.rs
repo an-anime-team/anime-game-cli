@@ -1,6 +1,6 @@
 use commandor::prelude::*;
 
-use anime_game_core::prelude::*;
+use anime_game_core::prelude::genshin::*;
 
 use crate::lib::config;
 use crate::lib::output::*;

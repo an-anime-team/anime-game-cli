@@ -1,10 +1,9 @@
 use std::sync::{Arc, Mutex};
 use std::cmp::min;
-use std::io::Error;
 
 use commandor::prelude::*;
 
-use anime_game_core::repairer::*;
+use anime_game_core::repairer::IntegrityFile;
 
 use crate::lib::config;
 use crate::lib::output::*;
@@ -54,7 +53,7 @@ impl RepairFilesConfig {
     }
 }
 
-fn calc_size(files: &Vec<anime_game_core::repairer::IntegrityFile>) -> u64 {
+fn calc_size(files: &Vec<IntegrityFile>) -> u64 {
     let mut size = 0;
 
     for file in files {
@@ -76,7 +75,7 @@ pub trait RepairFiles {
         ]
     }
 
-    fn try_get_integrity_files(args: Vec<String>) -> Result<Vec<IntegrityFile>, Error>;
+    fn try_get_integrity_files(args: Vec<String>) -> anyhow::Result<Vec<IntegrityFile>>;
 
     fn repair(mut repairing_config: RepairFilesConfig, args: Vec<String>) -> bool {
         let config = config::get().expect("Failed to load config");
@@ -107,7 +106,7 @@ pub trait RepairFiles {
                     }
 
                     true
-                }).collect::<Vec<anime_game_core::repairer::IntegrityFile>>();
+                }).collect::<Vec<IntegrityFile>>();
 
                 if files.len() == 0 {
                     warn("No files found to verify");
@@ -153,6 +152,7 @@ pub trait RepairFiles {
                         let bar = thread_progress.lock().unwrap().bar(files_part.len(), format!("Thread {} ({} GB of {} files)", j, format_size(files_part_size), files_part.len()));
 
                         // Run thread
+                        #[allow(unused_must_use)]
                         handlers.push(std::thread::spawn(move || {
                             for file in files_part {
                                 let status = if repairing_config.fast {
@@ -173,7 +173,7 @@ pub trait RepairFiles {
 
                 // Sync threads
                 for handler in handlers {
-                    handler.join();
+                    handler.join().unwrap();
                 }
 
                 // Fetch broken files
@@ -226,6 +226,7 @@ pub trait RepairFiles {
                         let bar = thread_progress.lock().unwrap().bar(files_part.len(), format!("Thread {} ({} GB of {} files)", i + 1, format_size(calc_size(&files_part)), files_part.len()));
 
                         // Run thread
+                        #[allow(unused_must_use)]
                         handlers.push(std::thread::spawn(move || {
                             for file in files_part {
                                 if let Err(err) = file.repair(game_path_ref.clone()) {
@@ -239,7 +240,7 @@ pub trait RepairFiles {
 
                     // Sync threads
                     for handler in handlers {
-                        handler.join();
+                        handler.join().unwrap();
                     }
 
                     // Print failed to repair files
