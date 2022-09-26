@@ -76,7 +76,7 @@ impl Command for VoiceDownload {
                     let thread_game_path = game_path.clone();
 
                     handlers.push(std::thread::spawn(move || {
-                        let (download_size, unpacked_size) = diff.get_size().unwrap();
+                        let (download_size, unpacked_size) = diff.size().unwrap();
                         
                         let downloading_bar = Arc::new(thread_progress.lock().unwrap().bar(
                             download_size as usize,

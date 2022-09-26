@@ -60,6 +60,16 @@ impl Command for GameInfo {
             Ok(VersionDiff::Latest(version)) => {
                 notice(format!("Latest version: {}", version.to_string().light_green()));
             },
+            Ok(VersionDiff::Predownload { current, latest, unpacked_size, .. }) => {
+                notice(vec![
+                    format!(
+                        "Game update pre-downloading available: {} -> {}",
+                        current.to_string().light_yellow(),
+                        latest.to_string().light_green()
+                    ),
+                    format!("Update size: {} GB", format_size(unpacked_size).to_string().light_cyan())
+                ]);
+            },
             Ok(VersionDiff::Diff { current, latest, unpacked_size, .. }) => {
                 notice(vec![
                     format!(

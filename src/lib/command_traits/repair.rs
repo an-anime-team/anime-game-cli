@@ -98,7 +98,7 @@ pub trait RepairFiles {
                 // Skip ignored files
                 files = files.into_iter().filter(|file| {
                     for line in &repairing_config.ignore {
-                        let path = file.path.to_lowercase();
+                        let path = file.path.to_string_lossy().to_lowercase();
 
                         if path.contains(line) {
                             return false;
@@ -190,7 +190,7 @@ pub trait RepairFiles {
                     let mut output = vec![format!("Found {} broken files", broken_files.len())];
 
                     for file in &broken_files {
-                        output.push(format!("- {}", file.path));
+                        output.push(format!("- {:?}", file.path));
                     }
 
                     output
@@ -245,7 +245,7 @@ pub trait RepairFiles {
 
                     // Print failed to repair files
                     while let Ok((file, err)) = failed_recv.try_recv() {
-                        error(format!("Failed to repair {}: {:?}", file.path, err));
+                        error(format!("Failed to repair {:?}: {:?}", file.path, err));
                     }
                 }
             },
