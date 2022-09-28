@@ -6,8 +6,13 @@ license = "GPL-3.0"
 readme = "README.md"
 edition = "2021"
 
+[profile.release]
+strip = true
+lto = true
+opt-level = 3
+
 [dependencies]
-anime-game-core = { path = "anime-game-core", features = ["all", "static", "genshin", "honkai"] }
+anime-game-core = { path = "anime-game-core", features = ["all", "static", "genshin"] }
 commandor = "0.1.0"
 colorful = "0.2.1"
 toml = "0.5.9"
