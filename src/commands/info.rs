@@ -35,7 +35,7 @@ impl Command for Info {
         let config = config::get().expect("Failed to load config");
 
         let game = {
-            if config.paths.game == "" {
+            if config.paths.game.is_empty() {
                 notice("You didn't specify the game path\n");
             }
 
@@ -114,7 +114,7 @@ impl Command for Info {
                     }))
                 }
             },
-            Err(err) => error(format!("Failed to fetch patch status: {}", err.to_string()))
+            Err(err) => error(format!("Failed to fetch patch status: {err}"))
         }
 
         // Installed voice packages
@@ -145,7 +145,7 @@ impl Command for Info {
                     });
                 }
             },
-            Err(err) => error(format!("Failed to get installed voice packages: {}", err.to_string()))
+            Err(err) => error(format!("Failed to get installed voice packages: {err}"))
         }
 
         // Available voice packages

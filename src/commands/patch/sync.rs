@@ -31,7 +31,7 @@ impl Command for PatchSync {
     fn execute(&self, _: Vec<String>, args: Vec<ArgumentValue>) -> bool {
         let config = config::get().expect("Failed to load config");
 
-        if config.patch.hosts.len() == 0 {
+        if config.patch.hosts.is_empty() {
             error("Missing patch hosts");
 
             return false;
@@ -63,8 +63,8 @@ impl Command for PatchSync {
     
                             return true;
                         },
-                        Ok(false) => warn(format!("Failed to sync repo {}", host)),
-                        Err(err) => warn(format!("Failed to sync repo {}: {}", host, err.to_string()))
+                        Ok(false) => warn(format!("Failed to sync repo {host}")),
+                        Err(err) => warn(format!("Failed to sync repo {host}: {err}"))
                     }
                 }
 

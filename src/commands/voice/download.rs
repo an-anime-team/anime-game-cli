@@ -35,7 +35,7 @@ impl Command for VoiceDownload {
         let config = config::get().expect("Failed to load config");
 
         let game_path = {
-            if config.paths.game == "" {
+            if config.paths.game.is_empty() {
                 error("Game path is not specified");
 
                 // Interrupt command execution
@@ -116,7 +116,7 @@ impl Command for VoiceDownload {
                             }
                         });
 
-                        if let Err(_) = result {
+                        if result.is_err() {
                             // todo
                         }
                     }));

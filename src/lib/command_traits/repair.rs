@@ -42,7 +42,7 @@ impl RepairFilesConfig {
                 },
                 "--verify-threads" => config.verify_threads = arg.value.parse::<usize>().expect("Wrong threads num"),
                 "--repair-threads" => config.repair_threads = arg.value.parse::<usize>().expect("Wrong threads num"),
-                "--ignore" => config.ignore = arg.value.split(",").map(|f| f.to_string()).collect(),
+                "--ignore" => config.ignore = arg.value.split(',').map(|f| f.to_string()).collect(),
                 "--verify" => config.just_verify = true,
                 "--fast" => config.fast = true,
                 _ => unreachable!()
@@ -81,7 +81,7 @@ pub trait RepairFiles {
         let config = config::get().expect("Failed to load config");
 
         let game_path = {
-            if config.paths.game == "" {
+            if config.paths.game.is_empty() {
                 error("You didn't specify the game path\n");
 
                 // Interrupt command execution
@@ -108,7 +108,7 @@ pub trait RepairFiles {
                     true
                 }).collect::<Vec<IntegrityFile>>();
 
-                if files.len() == 0 {
+                if files.is_empty() {
                     warn("No files found to verify");
 
                     return false;
@@ -141,7 +141,7 @@ pub trait RepairFiles {
                         i += 1;
                     }
 
-                    if files_part.len() > 0 {
+                    if !files_part.is_empty() {
                         let game_path_ref = game_path.clone();
 
                         let thread_progress = progress.clone();
@@ -196,7 +196,7 @@ pub trait RepairFiles {
                     output
                 });
 
-                if !repairing_config.just_verify && broken_files.len() > 0 {
+                if !repairing_config.just_verify && !broken_files.is_empty() {
                     // Don't try to run 4 threads for 1 file
                     repairing_config.repair_threads = min(repairing_config.repair_threads, broken_files.len());
                     

@@ -35,10 +35,10 @@ impl Command for VoiceInfo {
     fn execute(&self, _: Vec<String>, values: Vec<ArgumentValue>) -> bool {
         let config = config::get().expect("Failed to load config");
 
-        let game = if values.len() > 0 {
+        let game = if !values.is_empty() {
             Game::new(values[0].value.clone())
         } else {
-            if config.paths.game == "" {
+            if config.paths.game.is_empty() {
                 warn("You didn't specify the game path\n");
 
                 // Stop command execution

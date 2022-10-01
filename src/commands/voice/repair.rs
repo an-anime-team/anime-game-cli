@@ -22,7 +22,7 @@ impl RepairFiles for VoiceRepair {
         
         for arg in &args[1..] {
             if let Some(locale) = VoiceLocale::from_str(arg) {
-                match VoicePackage::with_locale(locale.clone()) {
+                match VoicePackage::with_locale(locale) {
                     Ok(package) => {
                         if !package.is_installed_in(&config.paths.game) {
                             warn(format!("{} package is not installed", locale.to_name()))
@@ -41,7 +41,7 @@ impl RepairFiles for VoiceRepair {
 
         let locales = locales.into_iter().fold(String::new(), |acc, s| acc + s.to_name() + ", ");
 
-        if locales.len() > 0 {
+        if !locales.is_empty() {
             notice(format!("Verifying locales: {}", &locales[..locales.len() - 2]));
         }
 

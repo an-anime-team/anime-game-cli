@@ -33,7 +33,7 @@ impl Command for GameInfo {
         let config = config::get().expect("Failed to load config");
 
         let game = {
-            if config.paths.game == "" {
+            if config.paths.game.is_empty() {
                 notice("You didn't specify the game path\n");
             }
 

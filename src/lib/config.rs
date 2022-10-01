@@ -5,7 +5,7 @@ use std::io::{Error, ErrorKind, Write};
 
 use serde::{Serialize, Deserialize};
 
-pub const CONFIG_FILE: &'static str = "config.toml";
+pub const CONFIG_FILE: &str = "config.toml";
 
 pub fn get() -> Result<Config, Error> {
     // Try to read config if the file exists
@@ -17,7 +17,7 @@ pub fn get() -> Result<Config, Error> {
 
         match toml::from_str::<Config>(&toml) {
             Ok(toml) => Ok(toml),
-            Err(err) => Err(Error::new(ErrorKind::InvalidData, format!("Failed to decode data from toml format: {}", err.to_string())))
+            Err(err) => Err(Error::new(ErrorKind::InvalidData, format!("Failed to decode data from toml format: {err}")))
         }
     }
 
@@ -34,11 +34,11 @@ pub fn update(config: Config) -> Result<(), Error> {
 
     match toml::to_string(&config) {
         Ok(toml) => {
-            file.write_all(&mut toml.as_bytes())?;
+            file.write_all(toml.as_bytes())?;
 
             Ok(())
         },
-        Err(err) => Err(Error::new(ErrorKind::InvalidData, format!("Failed to encode data into toml format: {}", err.to_string())))
+        Err(err) => Err(Error::new(ErrorKind::InvalidData, format!("Failed to encode data into toml format: {err}")))
     }
 }
 
@@ -60,19 +60,9 @@ pub struct Patch {
     pub hosts: Vec<String>
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Default)]
 pub struct Wine {
     pub prefix: String,
     pub executable: String,
     pub environment: HashMap<String, String>
-}
-
-impl Default for Wine {
-    fn default() -> Self {
-        Self {
-            prefix: String::new(),
-            executable: String::new(),
-            environment: HashMap::new()
-        }
-    }
 }
